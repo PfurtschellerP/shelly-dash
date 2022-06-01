@@ -1,26 +1,39 @@
 <template>
-  <div>
+  <div @click="openShellyPage()">
     <h3>{{ data.name }}</h3>
     <h4>Daten</h4>
     <h4 id="updateBanner" v-if="updateAvailable">Update verfügbar!!!</h4>
     <img :src="imagePath" />
-    <ul>
-      <li>
-        Hostname:
-        <a :href="'http://' + data.host" target="_blank">{{ data.host }}</a>
-      </li>
-      <li>
-        IP:
-        <a :href="'http://' + data.wifi_ip" target="_blank">{{
-          data.wifi_ip
-        }}</a>
-      </li>
-      <li>Firmware Build: {{ data.fw_build }}</li>
-      <li>Firmware Version: {{ data.version }}</li>
-      <li>Modell: {{ data.model }}</li>
-      <li>Device ID: {{ data.device_id }}</li>
-      <li>Uptime: {{ uptime }}</li>
-    </ul>
+    <table class="shellyData">
+      <tr>
+        <td>Hostname</td>
+        <td>
+          {{ data.host }}
+        </td>
+      </tr>
+      <tr>
+        <td>IP</td>
+        <td>
+          {{ data.wifi_ip }}
+        </td>
+      </tr>
+      <tr>
+        <td>Firmware Version</td>
+        <td>{{ data.version }}</td>
+      </tr>
+      <tr>
+        <td>Modell</td>
+        <td>{{ data.model }}</td>
+      </tr>
+      <tr>
+        <td>Device ID</td>
+        <td>{{ data.device_id }}</td>
+      </tr>
+      <tr>
+        <td>Uptime</td>
+        <td>{{ uptime }}</td>
+      </tr>
+    </table>
     <!-- <h4>Debug</h4>
     <pre><code>{{ data }}</code></pre> -->
   </div>
@@ -114,25 +127,25 @@
         'https://rojer.me/files/shelly/update.json'
       );
 
-      // const data = response.data;
+      const data = response.data;
 
       // dummy data
-      const data = [
-        [
-          '.*',
-          {
-            version: '2.10.2',
-            rel_notes:
-              'https://github.com/mongoose-os-apps/shelly-homekit/releases/tag/2.10.1',
-            urls: {
-              Shelly1:
-                'https://rojer.me/files/shelly/2.10.1/shelly-homekit-Shelly1.zip',
-              Shelly25:
-                'https://rojer.me/files/shelly/2.10.1/shelly-homekit-Shelly25.zip',
-            },
-          },
-        ],
-      ];
+      // const data = [
+      //   [
+      //     '.*',
+      //     {
+      //       version: '2.10.2',
+      //       rel_notes:
+      //         'https://github.com/mongoose-os-apps/shelly-homekit/releases/tag/2.10.1',
+      //       urls: {
+      //         Shelly1:
+      //           'https://rojer.me/files/shelly/2.10.1/shelly-homekit-Shelly1.zip',
+      //         Shelly25:
+      //           'https://rojer.me/files/shelly/2.10.1/shelly-homekit-Shelly25.zip',
+      //       },
+      //     },
+      //   ],
+      // ];
 
       let cfg, latestVersion, updateURL, relNotesURL;
       for (let i in data) {
@@ -180,6 +193,14 @@
 
     return version;
   }
+
+  // --------------------------------------------------------------------------
+  // Open Shelly Webpage
+  // --------------------------------------------------------------------------
+
+  function openShellyPage() {
+    window.open(`http://${data.value.wifi_ip}`, '_blank');
+  }
 </script>
 
 <style scoped>
@@ -192,5 +213,9 @@
     padding: 0.5rem;
     color: white;
     border-radius: 15px;
+  }
+
+  .shellyData td:nth-child(2n + 1) {
+    font-weight: 600;
   }
 </style>
