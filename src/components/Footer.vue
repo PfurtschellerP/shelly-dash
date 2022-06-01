@@ -37,7 +37,4 @@
     color: var(--footer-text-color);
     text-decoration: none;
   }
-
-  p:nth-child(2) {
-  }
 </style>
